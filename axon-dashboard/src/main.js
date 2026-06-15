@@ -11,6 +11,7 @@ import { initParticles } from './utils/particles.js';
 
 // Import pages to ensure they are registered with the router
 import './pages/landing.js';
+import './pages/docs.js';
 import './pages/dashboard.js';
 import './pages/agents.js';
 import './pages/memories.js';

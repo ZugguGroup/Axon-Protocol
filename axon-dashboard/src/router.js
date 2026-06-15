@@ -19,7 +19,7 @@ export function start(defaultPage = 'dashboard') {
     }
 
     if (!userToken) {
-      if (hash !== 'login' && hash !== 'landing') {
+      if (hash !== 'login' && hash !== 'landing' && hash !== 'docs') {
         window.location.hash = '#/landing';
         return;
       }
@@ -40,7 +40,7 @@ export function start(defaultPage = 'dashboard') {
     const renderFn = routes[hash];
     if (renderFn) {
       renderFn();
-    } else if (hash === 'login' || hash === 'landing' || hash === 'projects' || hash === 'billing') {
+    } else if (hash === 'login' || hash === 'landing' || hash === 'docs' || hash === 'projects' || hash === 'billing') {
       // If route registered dynamically late
       console.warn(`Route render function for ${hash} not found yet.`);
     }
@@ -54,7 +54,7 @@ export function currentRoute() {
   const userToken = localStorage.getItem('axon_user_token');
   if (!userToken) {
     const hash = window.location.hash.replace('#/', '');
-    return (hash === 'login' || hash === 'landing') ? hash : 'landing';
+    return (hash === 'login' || hash === 'landing' || hash === 'docs') ? hash : 'landing';
   }
   
   const hash = window.location.hash.replace('#/', '') || 'dashboard';

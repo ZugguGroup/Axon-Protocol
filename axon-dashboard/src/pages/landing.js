@@ -32,7 +32,7 @@ export function renderLanding() {
     el('div', { className: 'landing-nav-links' },
       el('a', { href: '#features-sec', className: 'landing-nav-link', textContent: 'Features' }),
       el('a', { href: '#arch-sec', className: 'landing-nav-link', textContent: 'Architecture' }),
-      el('a', { href: '#docs-sec', className: 'landing-nav-link', textContent: 'SDK Docs' })
+      el('a', { href: '#/docs', className: 'landing-nav-link', textContent: 'Documentation' })
     ),
     el('div', { className: 'landing-nav-actions' },
       el('button', { className: 'btn btn-secondary btn-sm', textContent: 'Log In' })
@@ -74,7 +74,7 @@ export function renderLanding() {
   hero.querySelector('.btn-primary').addEventListener('click', scrollToAuth);
   hero.querySelector('.btn-secondary').addEventListener('click', (e) => {
     e.preventDefault();
-    document.getElementById('docs-sec')?.scrollIntoView({ behavior: 'smooth' });
+    navigate('docs');
   });
 
   // 3. Features Section
@@ -159,7 +159,7 @@ export function renderLanding() {
     el('div', { className: 'landing-footer-links' },
       el('a', { href: '#features-sec', className: 'landing-footer-link', textContent: 'Features' }),
       el('a', { href: '#arch-sec', className: 'landing-footer-link', textContent: 'Architecture' }),
-      el('a', { href: '#docs-sec', className: 'landing-footer-link', textContent: 'Developer Guide' })
+      el('a', { href: '#/docs', className: 'landing-footer-link', textContent: 'Documentation' })
     ),
     el('div', { className: 'landing-brand-glow', textContent: 'Built by Zuggu Group' }),
     el('span', { className: 'landing-footer-text', textContent: `© ${new Date().getFullYear()} Axon Protocol. All rights reserved.` })
