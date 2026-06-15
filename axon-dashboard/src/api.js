@@ -1,4 +1,4 @@
-const BASE_URL = '';  // Empty string = uses Vite proxy in dev
+export const BASE_URL = import.meta.env.VITE_API_URL || '';  // Empty string = uses Vite proxy in dev
 
 let currentApiKey = null;
 let currentProjectId = null;

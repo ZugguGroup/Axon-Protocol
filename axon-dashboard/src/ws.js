@@ -1,3 +1,5 @@
+import { BASE_URL } from './api.js';
+
 let socket = null;
 let listeners = [];
 let reconnectTimer = null;
@@ -5,8 +7,15 @@ let reconnectTimer = null;
 export function connect(projectId) {
   disconnect(); // Ensure any existing connection is cleaned up first
 
-  const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-  const url = `${protocol}//${location.host}/v1/events/${projectId}`;
+  let url;
+  if (BASE_URL) {
+    const wsProtocol = BASE_URL.startsWith('https') ? 'wss:' : 'ws:';
+    const host = BASE_URL.replace(/^https?:\/\//, '');
+    url = `${wsProtocol}//${host}/v1/events/${projectId}`;
+  } else {
+    const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+    url = `${protocol}//${location.host}/v1/events/${projectId}`;
+  }
 
   socket = new WebSocket(url);
 
