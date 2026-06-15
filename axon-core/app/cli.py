@@ -49,7 +49,7 @@ def main():
                 print(f"Skipping auto-compilation (ensure node/npm are installed): {e}")
         
         print(f"Starting Axon server in local mode on http://{args.host}:{args.port}...")
-        uvicorn.run("app.main:app", host=args.host, port=args.port, reload=False)
+        uvicorn.run("app.main:app", host=args.host, port=args.port, reload=True)
     else:
         parser.print_help()
         sys.exit(1)
