@@ -152,7 +152,7 @@ export async function renderProjects() {
         showToast(`Project "${name}" created successfully!`, 'success');
         
         // Present key warning modal
-        showKeyWarningModal(res);
+        setTimeout(() => showKeyWarningModal(res), 100);
         
         // Auto select if it is the first project
         if (projectList.length === 0) {
@@ -201,7 +201,7 @@ export async function renderProjects() {
         showToast('API Key rotated successfully!', 'success');
         
         // Show key warning
-        showKeyWarningModal(res);
+        setTimeout(() => showKeyWarningModal(res), 100);
 
         // If the rotated project was active, refresh credentials
         const activeProjectId = localStorage.getItem('axon_project_id');
