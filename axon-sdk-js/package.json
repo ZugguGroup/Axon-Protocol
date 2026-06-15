@@ -1,0 +1,48 @@
+{
+  "name": "axon-protocol",
+  "version": "0.1.0",
+  "description": "TypeScript SDK for Axon Protocol — multi-agent coordination, shared memory, resource locking, and reasoning receipts",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "npx tsx tests/test-e2e.ts",
+    "lint": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "axon",
+    "multi-agent",
+    "coordination",
+    "protocol",
+    "ai",
+    "agents",
+    "memory",
+    "locking"
+  ],
+  "author": "Sarthak",
+  "license": "MIT",
+  "devDependencies": {
+    "@langchain/core": "^1.1.49",
+    "@types/ws": "^8.18.1",
+    "tsup": "^8.0.0",
+    "typescript": "^5.4.0",
+    "vitest": "^2.0.0",
+    "ws": "^8.21.0"
+  }
+}

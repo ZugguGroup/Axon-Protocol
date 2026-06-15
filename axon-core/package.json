@@ -1,0 +1,30 @@
+{
+  "name": "axon-protocol-server",
+  "version": "0.1.0",
+  "description": "FastAPI server for the Axon Protocol multi-agent ecosystem. Exposes shared memory, resource locking, and receipts.",
+  "type": "commonjs",
+  "bin": {
+    "axon": "bin/cli.js",
+    "axon-protocol-server": "bin/cli.js"
+  },
+  "files": [
+    "app",
+    "bin",
+    "pyproject.toml",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "keywords": [
+    "axon",
+    "multi-agent",
+    "coordination",
+    "locking",
+    "memory",
+    "vector",
+    "server"
+  ],
+  "author": "Sarthak",
+  "license": "MIT"
+}
