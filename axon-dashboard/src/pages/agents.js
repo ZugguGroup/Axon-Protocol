@@ -59,7 +59,8 @@ export async function renderAgents() {
           el('th', { textContent: 'Capabilities' }),
           el('th', { textContent: 'Status' }),
           el('th', { textContent: 'Last Active' }),
-          el('th', { textContent: 'Created' })
+          el('th', { textContent: 'Created' }),
+          el('th', { textContent: 'Actions', style: 'text-align: right;' })
         )
       ),
       el('tbody', {},
@@ -78,7 +79,14 @@ export async function renderAgents() {
             textContent: a.status 
           })),
           el('td', { textContent: a.last_seen_at ? formatDate(a.last_seen_at) : '—' }),
-          el('td', { textContent: formatDate(a.created_at) })
+          el('td', { textContent: formatDate(a.created_at) }),
+          el('td', { style: 'text-align: right;' }, 
+            el('button', { 
+              className: 'btn btn-danger btn-sm', 
+              style: 'padding: 4px 10px;',
+              textContent: 'Delete' 
+            }).addEventListener('click', () => triggerDeleteAgent(a))
+          )
         ))
       )
     );
@@ -185,5 +193,25 @@ function showRegisterModal() {
   });
 }
 
+function triggerDeleteAgent(agent) {
+  const content = el('div', { style: 'text-align: left;' },
+    el('p', { style: 'color: var(--color-error); font-weight: bold; margin-bottom: var(--space-sm);', textContent: '⚠️ WARNING: Deleting this agent is permanent!' }),
+    el('p', { style: 'font-size: 13px; color: var(--text-secondary); line-height: 1.4;', textContent: `Are you sure you want to delete agent "${agent.name}" (${shortId(agent.id)})? This action cannot be undone.` })
+  );
+
+  openModal('Delete Agent', content, async () => {
+    try {
+      await api.agents.delete(agent.id);
+      showToast(`Agent "${agent.name}" deleted successfully`, 'success');
+      renderAgents();
+      return true;
+    } catch (err) {
+      showToast(err.message || 'Failed to delete agent', 'error');
+      return false;
+    }
+  }, 'Delete');
+}
+
 // Register agents route
 register('agents', renderAgents);
+

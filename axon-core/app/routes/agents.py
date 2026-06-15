@@ -152,3 +152,24 @@ async def list_agents(
         ]
     }
 
+@router.delete("/{agent_id}")
+async def delete_agent(
+    agent_id: uuid.UUID,
+    current_agent: Agent = Depends(get_current_agent),
+    db: AsyncSession = Depends(get_db),
+):
+    result = await db.execute(
+        select(Agent).where(
+            Agent.id == agent_id,
+            Agent.project_id == current_agent.project_id,
+        )
+    )
+    agent = result.scalar_one_or_none()
+    if not agent:
+        raise HTTPException(status_code=404, detail="Agent not found")
+        
+    await db.delete(agent)
+    await db.commit()
+    return {"deleted": True, "id": str(agent_id)}
+
+

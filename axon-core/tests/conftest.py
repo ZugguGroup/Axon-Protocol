@@ -19,11 +19,21 @@ if settings.AXON_MODE == "local":
 else:
     TEST_DATABASE_URL = "postgresql+asyncpg://postgres:8VpcSrnxK7XK_GG@db.tepgtjepsxywwblvbouh.supabase.co:5432/postgres"
 
+def _enable_sqlite_fks(engine):
+    if TEST_DATABASE_URL.startswith("sqlite"):
+        @sa.event.listens_for(engine.sync_engine, "connect")
+        def set_sqlite_pragma(dbapi_connection, connection_record):
+            cursor = dbapi_connection.cursor()
+            cursor.execute("PRAGMA foreign_keys=ON")
+            cursor.close()
+
 test_engine = create_async_engine(TEST_DATABASE_URL, echo=False)
+_enable_sqlite_fks(test_engine)
 TestSessionLocal = async_sessionmaker(test_engine, class_=AsyncSession, expire_on_commit=False)
 
 async def override_get_db() -> AsyncGenerator[AsyncSession, None]:
     engine = create_async_engine(TEST_DATABASE_URL, echo=False)
+    _enable_sqlite_fks(engine)
     SessionLocal = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
     async with SessionLocal() as session:
         try:
@@ -63,6 +73,7 @@ def cleanup_test_files():
 async def setup_test_db():
     """Create pgvector extension and database schema for each test."""
     engine = create_async_engine(TEST_DATABASE_URL, echo=False)
+    _enable_sqlite_fks(engine)
     try:
         async with engine.begin() as conn:
             # Enable pgvector if postgresql

@@ -94,3 +94,23 @@ async def rotate_project_key(
         api_key=raw_api_key,
         created_at=project.created_at
     )
+
+@router.delete("/{project_id}")
+async def delete_project(
+    project_id: uuid.UUID,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    result = await db.execute(
+        select(Project).where(
+            Project.id == project_id,
+            Project.owner_id == current_user.id
+        )
+    )
+    project = result.scalar_one_or_none()
+    if not project:
+        raise HTTPException(status_code=404, detail="Project not found")
+        
+    await db.delete(project)
+    await db.commit()
+    return {"deleted": True, "id": str(project_id)}

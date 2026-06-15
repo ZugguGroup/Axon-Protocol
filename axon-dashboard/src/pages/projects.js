@@ -96,6 +96,12 @@ export async function renderProjects() {
       });
       rotateBtn.addEventListener('click', () => triggerRotateKey(project));
 
+      const deleteBtn = el('button', { 
+        className: 'btn btn-danger btn-sm', 
+        textContent: 'Delete' 
+      });
+      deleteBtn.addEventListener('click', () => triggerDeleteProject(project));
+
       const card = el('div', { className: `card ${isActive ? 'active-project-card' : ''}`, style: isActive ? 'border-color: var(--accent-primary); background: rgba(99, 102, 241, 0.05);' : '' },
         el('div', { className: 'card-header' },
           el('span', { className: 'card-title', style: 'font-size: 16px; font-weight: 700; color: var(--text-primary);', textContent: project.name }),
@@ -112,6 +118,7 @@ export async function renderProjects() {
           )
         ),
         el('div', { style: 'display: flex; gap: var(--space-sm); justify-content: flex-end;' },
+          deleteBtn,
           rotateBtn,
           selectBtn
         )
@@ -209,6 +216,38 @@ export async function renderProjects() {
         return false;
       }
     }, 'Rotate Key');
+  }
+
+  async function triggerDeleteProject(project) {
+    const activeProjectId = localStorage.getItem('axon_project_id');
+    const isCurrentActive = project.id === activeProjectId;
+
+    const content = el('div', { style: 'text-align: left;' },
+      el('p', { style: 'color: var(--color-error); font-weight: bold; margin-bottom: var(--space-sm);', textContent: '⚠️ DANGER: This action is irreversible!' }),
+      el('p', { style: 'font-size: 13px; color: var(--text-secondary); line-height: 1.4;', textContent: `Are you sure you want to delete project "${project.name}"? This will permanently delete all associated agents, memories, locks, receipts, and messages.` })
+    );
+
+    openModal('Delete Project', content, async () => {
+      try {
+        await api.projects.delete(project.id);
+        showToast(`Project "${project.name}" deleted successfully`, 'success');
+
+        if (isCurrentActive) {
+          // Clear credentials
+          api.clearCredentials();
+          setState('credentials', { apiKey: null, projectId: null, userToken: localStorage.getItem('axon_user_token') });
+          // Disconnect WebSocket
+          ws.disconnect();
+          showToast('Active project was deleted. Please select or create another project.', 'info');
+        }
+
+        renderProjects();
+        return true;
+      } catch (err) {
+        showToast(err.message || 'Failed to delete project', 'error');
+        return false;
+      }
+    }, 'Delete');
   }
 
   async function selectActiveProject(project) {

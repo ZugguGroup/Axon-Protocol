@@ -223,3 +223,70 @@ async def test_billing_webhook(client: AsyncClient):
         assert sub2.status == "canceled"
     await engine2.dispose()
 
+
+@pytest.mark.asyncio
+async def test_project_and_agent_deletion(client: AsyncClient, db: AsyncSession):
+    email = f"delete-{uuid.uuid4().hex[:6]}@example.com"
+    signup_resp = await client.post(
+        "/v1/auth/signup",
+        json={"email": email, "password": "password123"}
+    )
+    token = signup_resp.json()["token"]
+    user_headers = {"Authorization": f"Bearer {token}"}
+
+    # 1. Create project
+    create_proj = await client.post("/v1/projects", headers=user_headers, json={"name": "Temp Project"})
+    assert create_proj.status_code == 200
+    proj_data = create_proj.json()
+    proj_id = proj_data["id"]
+    api_key = proj_data["api_key"]
+
+    # 2. Register Agent
+    reg_agent = await client.post(
+        "/v1/agents/register",
+        headers={"X-API-Key": api_key},
+        json={"name": "Temp Agent", "project_id": proj_id}
+    )
+    assert reg_agent.status_code == 200
+    agent_data = reg_agent.json()
+    agent_id = agent_data["id"]
+
+    # 3. Delete Agent (using API key)
+    del_agent = await client.delete(
+        f"/v1/agents/{agent_id}",
+        headers={"X-API-Key": api_key}
+    )
+    assert del_agent.status_code == 200
+    assert del_agent.json() == {"deleted": True, "id": agent_id}
+
+    # Verify Agent is gone from DB
+    db.expire_all()
+    agent_res = await db.execute(select(Agent).where(Agent.id == uuid.UUID(agent_id)))
+    assert agent_res.scalar_one_or_none() is None
+
+    # Register another agent to test project-level cascade delete
+    reg_agent2 = await client.post(
+        "/v1/agents/register",
+        headers={"X-API-Key": api_key},
+        json={"name": "Temp Agent 2", "project_id": proj_id}
+    )
+    assert reg_agent2.status_code == 200
+    agent_id2 = reg_agent2.json()["id"]
+
+    # 4. Delete Project
+    del_proj = await client.delete(
+        f"/v1/projects/{proj_id}",
+        headers=user_headers
+    )
+    assert del_proj.status_code == 200
+    assert del_proj.json() == {"deleted": True, "id": proj_id}
+
+    # Verify project and associated agent are gone from DB
+    db.expire_all()
+    proj_res = await db.execute(select(Project).where(Project.id == uuid.UUID(proj_id)))
+    assert proj_res.scalar_one_or_none() is None
+
+    agent_res2 = await db.execute(select(Agent).where(Agent.id == uuid.UUID(agent_id2)))
+    assert agent_res2.scalar_one_or_none() is None
+
+

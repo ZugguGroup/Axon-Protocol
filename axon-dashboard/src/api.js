@@ -70,6 +70,7 @@ export const projects = {
   create: (name) => request('POST', '/v1/projects', { name }),
   list: () => request('GET', '/v1/projects'),
   rotateKey: (projectId) => request('POST', `/v1/projects/${projectId}/rotate-key`),
+  delete: (projectId) => request('DELETE', `/v1/projects/${projectId}`),
 };
 
 // ── Billing ──
@@ -90,6 +91,7 @@ export const agents = {
     request('POST', '/v1/agents/register', { name, project_id: projectId, capabilities }),
   me: () => request('GET', '/v1/agents/me'),
   list: () => request('GET', '/v1/agents/list'),
+  delete: (agentId) => request('DELETE', `/v1/agents/${agentId}`),
 };
 
 // ── Memory ──
