@@ -1,4 +1,4 @@
-# Axon Protocol — Multi-Agent AI Infrastructure
+# Axon Protocol - Multi-Agent AI Infrastructure
 
 > **An open-source orchestration backend, client SDKs, and real-time developer console for building, coordinating, and auditing multi-agent AI fleets.**
 > Built by **Zuggu Group**.
