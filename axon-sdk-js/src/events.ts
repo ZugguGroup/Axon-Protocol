@@ -39,8 +39,14 @@ export class EventsModule {
       .replace(/^http/, 'ws')
       .replace(/\/+$/, '');
 
+    const apiKey = this.http.getApiKey();
+    let url = `${wsUrl}/v1/events/${pid}`;
+    if (apiKey) {
+      url += `?token=${encodeURIComponent(apiKey)}`;
+    }
+
     this.shouldReconnect = true;
-    this.createConnection(`${wsUrl}/v1/events/${pid}`);
+    this.createConnection(url);
   }
 
   /** Disconnect from the event stream and stop reconnecting. */

@@ -1,5 +1,5 @@
 {
-  "name": "axon-protocol",
+  "name": "axon-protocol-sdk",
   "version": "0.1.0",
   "description": "TypeScript SDK for Axon Protocol — multi-agent coordination, shared memory, resource locking, and reasoning receipts",
   "type": "module",

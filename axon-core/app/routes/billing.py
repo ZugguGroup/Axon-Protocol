@@ -36,7 +36,7 @@ async def create_checkout_session(
                     await db.commit()
             
             if not settings.STRIPE_PRO_PRICE_ID:
-                raise HTTPException(status_code=400, detail="Stripe configuration missing. Contact hello@zuggu.tech")
+                raise HTTPException(status_code=400, detail="Cloud billing coming soon. Self-host is completely free.")
                 
             # Create Stripe Checkout Session
             session = stripe.checkout.Session.create(

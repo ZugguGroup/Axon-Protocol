@@ -1,4 +1,4 @@
-import { BASE_URL } from './api.js';
+import { BASE_URL, getCredentials } from './api.js';
 
 let socket = null;
 let listeners = [];
@@ -15,6 +15,11 @@ export function connect(projectId) {
   } else {
     const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
     url = `${protocol}//${location.host}/v1/events/${projectId}`;
+  }
+
+  const { apiKey } = getCredentials();
+  if (apiKey) {
+    url += `?token=${encodeURIComponent(apiKey)}`;
   }
 
   socket = new WebSocket(url);
