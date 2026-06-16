@@ -5,7 +5,7 @@ from app.services.pubsub import get_pubsub
 from app.models.project import Project
 from sqlalchemy import select
 from app.middleware.auth import verify_api_key
-from app.database import async_session_maker
+from app.database import AsyncSessionLocal
 
 router = APIRouter(tags=["events"])
 
@@ -23,7 +23,7 @@ async def events_websocket(
         return
         
     # Verify the API key against the database
-    async with async_session_maker() as db:
+    async with AsyncSessionLocal() as db:
         result = await db.execute(select(Project))
         projects = result.scalars().all()
         is_valid = False
