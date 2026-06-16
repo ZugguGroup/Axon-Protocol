@@ -205,10 +205,56 @@
   .grid-3 { grid-template-columns: repeat(2, 1fr); }
 }
 
+/* Mobile Sidebar Overlay */
+.mobile-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 90;
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.mobile-overlay.active {
+  display: block;
+  opacity: 1;
+}
+
 @media (max-width: 768px) {
   .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; }
-  #sidebar { display: none; }
+  
+  #sidebar { 
+    transform: translateX(-100%);
+    transition: transform var(--transition-normal) ease;
+    box-shadow: 5px 0 25px rgba(0,0,0,0.5);
+  }
+  
+  #sidebar.active {
+    transform: translateX(0);
+  }
+  
   #main { margin-left: 0; }
+  
+  .header-mobile-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+    padding: var(--space-xs);
+    margin-right: var(--space-sm);
+  }
+}
+
+@media (min-width: 769px) {
+  .header-mobile-toggle { display: none; }
 }
 
 /* ── Particle Background Canvas ── */

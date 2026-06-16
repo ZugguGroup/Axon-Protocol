@@ -20,6 +20,30 @@ export function renderHeader() {
 
   const titleEl = el('div', { className: 'header-title' }, titleText);
 
+  const hamburger = el('button', { 
+    className: 'header-mobile-toggle', 
+    innerHTML: `
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    ` 
+  });
+
+  hamburger.addEventListener('click', () => {
+    document.getElementById('sidebar').classList.add('active');
+    const overlay = document.getElementById('mobile-overlay');
+    overlay.classList.add('active');
+    
+    overlay.onclick = () => {
+      document.getElementById('sidebar').classList.remove('active');
+      overlay.classList.remove('active');
+    };
+  });
+
+  const leftGroup = el('div', { style: 'display: flex; align-items: center;' }, hamburger, titleEl);
+
   const statusIndicator = el('div', { className: 'header-right' },
     el('div', {
       className: `status-dot ${state.serverOnline ? 'online' : 'offline'}`
@@ -40,7 +64,7 @@ export function renderHeader() {
     )
   );
 
-  mount('#header', titleEl, statusIndicator);
+  mount('#header', leftGroup, statusIndicator);
 }
 
 // Watch state changes that affect header

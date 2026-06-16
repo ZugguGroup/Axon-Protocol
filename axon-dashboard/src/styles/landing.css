@@ -482,10 +482,16 @@
   
   .landing-nav-links {
     gap: var(--space-md);
+    flex-wrap: wrap;
+    justify-content: center;
   }
   
   .landing-hero-title {
-    font-size: 40px;
+    font-size: 36px;
+  }
+  
+  .landing-section {
+    padding: 60px 0;
   }
   
   .landing-features-grid {

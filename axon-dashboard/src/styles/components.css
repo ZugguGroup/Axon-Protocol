@@ -163,7 +163,8 @@
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .table-header {
@@ -292,10 +293,16 @@ table tr:hover td { background: var(--bg-glass); }
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
   padding: var(--space-xl);
-  min-width: 420px;
+  width: 90vw;
   max-width: 600px;
   box-shadow: var(--shadow-lg);
   animation: scaleIn var(--transition-normal) forwards;
+}
+
+@media (max-width: 768px) {
+  .modal {
+    padding: var(--space-lg);
+  }
 }
 
 .modal-title {
