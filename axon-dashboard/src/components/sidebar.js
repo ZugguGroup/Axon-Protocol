@@ -28,7 +28,7 @@ export function renderSidebar() {
     if (sidebarContainer) sidebarContainer.style.display = 'none';
     return;
   } else {
-    if (sidebarContainer) sidebarContainer.style.display = 'block';
+    if (sidebarContainer) sidebarContainer.style.display = '';
   }
 
   const logo = el('div', { className: 'sidebar-logo' },

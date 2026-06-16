@@ -641,8 +641,30 @@
   }
 
   .landing-arch-arrow {
-    transform: rotate(90deg);
-    margin: var(--space-xs) 0;
+    margin: var(--space-sm) 0;
+  }
+
+  .landing-arch-arrow-line {
+    width: 1px !important;
+    height: 30px !important;
+    background: var(--border-color) !important;
+    margin: 8px auto 0 auto !important;
+  }
+
+  .landing-arch-arrow-line::after {
+    content: '' !important;
+    position: absolute !important;
+    bottom: 0 !important;
+    left: -3px !important;
+    top: auto !important;
+    right: auto !important;
+    width: 7px !important;
+    height: 7px !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    border-right: 1px solid var(--border-color) !important;
+    transform: rotate(45deg) !important;
   }
 
   .landing-arch-node {
@@ -739,7 +761,6 @@
 
   .landing-code-content code {
     font-size: 10px;
-    word-break: break-all;
   }
 
   .landing-auth-section {

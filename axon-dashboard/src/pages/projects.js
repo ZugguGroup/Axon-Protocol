@@ -11,23 +11,6 @@ export async function renderProjects() {
   const container = document.getElementById('content');
   const state = getState();
 
-  // Ensure sidebar/header are shown if returning from login
-  const sidebar = document.getElementById('sidebar');
-  const header = document.querySelector('header');
-  if (sidebar) sidebar.style.display = 'block';
-  if (header) header.style.display = 'flex';
-  
-  const main = document.querySelector('main');
-  if (main && main.style.marginLeft === '0px') {
-    main.style.marginLeft = '';
-    main.style.padding = '';
-    main.style.display = '';
-    main.style.justifyContent = '';
-    main.style.alignItems = '';
-    main.style.minHeight = '';
-    main.style.background = '';
-  }
-
   container.innerHTML = `
     <div class="page-header animate-fade-in">
       <div>

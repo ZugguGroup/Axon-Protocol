@@ -363,3 +363,71 @@
 @media (min-width: 769px) {
   .header-mobile-toggle { display: none; }
 }
+
+/* ── Standalone Layout Styles ── */
+body.layout-landing #sidebar,
+body.layout-docs #sidebar,
+body.layout-login #sidebar {
+  display: none !important;
+}
+
+body.layout-landing #header,
+body.layout-docs #header,
+body.layout-login #header {
+  display: none !important;
+}
+
+body.layout-landing #main,
+body.layout-docs #main {
+  margin-left: 0 !important;
+  padding: 0 !important;
+  background: #030303 !important;
+  display: block !important;
+}
+
+body.layout-landing #content,
+body.layout-docs #content {
+  padding: 0 !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+  margin: 0 auto !important;
+  width: 100% !important;
+}
+
+body.layout-login #main {
+  margin-left: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  min-height: 100vh !important;
+  background: #030303 !important;
+}
+
+body.layout-login #content {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 16px !important;
+  max-width: 100% !important;
+  margin: 0 auto !important;
+  width: 100% !important;
+}
+
+/* ── Auth Card styling ── */
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 40px 36px;
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.8), 0 0 40px rgba(255, 255, 255, 0.02);
+  background: #09090b;
+}
+
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 24px 20px;
+    border-radius: 16px;
+  }
+}

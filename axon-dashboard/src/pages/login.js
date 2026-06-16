@@ -6,32 +6,6 @@ import { register, navigate } from '../router.js';
 
 export function renderLogin() {
   const container = document.getElementById('content');
-  
-  // Hide sidebar and header during login/signup to present a clean standalone auth gate
-  const sidebar = document.getElementById('sidebar');
-  const header = document.querySelector('header');
-  if (sidebar) sidebar.style.display = 'none';
-  if (header) header.style.display = 'none';
-
-  // Make main layout full screen centered
-  const main = document.querySelector('main');
-  if (main) {
-    main.style.marginLeft = '0';
-    main.style.padding = '0';
-    main.style.display = 'flex';
-    main.style.justifyContent = 'center';
-    main.style.alignItems = 'center';
-    main.style.minHeight = '100vh';
-    main.style.background = '#030303';
-  }
-
-  // Make content area a proper centered container
-  container.style.display = 'flex';
-  container.style.justifyContent = 'center';
-  container.style.alignItems = 'center';
-  container.style.padding = '16px';
-  container.style.maxWidth = '100%';
-
   let isSignup = false;
 
   function renderForm() {
@@ -117,9 +91,6 @@ export function renderLogin() {
         api.setCredentials(null, null, res.token);
         setState('credentials', { apiKey: null, projectId: null, userToken: res.token });
         
-        // Restore layout styles
-        restoreLayout();
-
         // Navigate to projects to create/select one
         navigate('projects');
       } catch (err) {
@@ -154,9 +125,8 @@ export function renderLogin() {
     backLink.addEventListener('mouseleave', () => { backLink.style.color = 'var(--text-muted)'; });
 
     const authCard = el('div', { 
-      className: 'card animate-scale-in', 
-      id: 'auth-card',
-      style: 'width: 100%; max-width: 420px; padding: 40px 36px; border-radius: 20px; border: 1px solid var(--border-color); box-shadow: 0 24px 80px rgba(0, 0, 0, 0.8), 0 0 40px rgba(255, 255, 255, 0.02); background: #09090b;' 
+      className: 'card auth-card animate-scale-in', 
+      id: 'auth-card'
     },
       el('div', { style: 'text-align: center; margin-bottom: 8px;' },
         logoMark,
@@ -173,25 +143,6 @@ export function renderLogin() {
 
     // Auto-focus the email field
     requestAnimationFrame(() => emailInput.focus());
-  }
-
-  function restoreLayout() {
-    if (sidebar) sidebar.style.display = 'block';
-    if (header) header.style.display = 'flex';
-    container.style.display = '';
-    container.style.justifyContent = '';
-    container.style.alignItems = '';
-    container.style.padding = '';
-    container.style.maxWidth = '';
-    if (main) {
-      main.style.marginLeft = '';
-      main.style.padding = '';
-      main.style.display = '';
-      main.style.justifyContent = '';
-      main.style.alignItems = '';
-      main.style.minHeight = '';
-      main.style.background = '';
-    }
   }
 
   renderForm();

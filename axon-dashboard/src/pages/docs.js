@@ -50,20 +50,6 @@ const DOC_SECTIONS = [
 
 export function renderDocs() {
   const container = document.getElementById('content');
-
-  // Hide sidebar and header for the docs page (full-screen doc layout)
-  const sidebar = document.getElementById('sidebar');
-  const header = document.querySelector('header');
-  if (sidebar) sidebar.style.display = 'none';
-  if (header) header.style.display = 'none';
-
-  const main = document.querySelector('main');
-  if (main) {
-    main.style.marginLeft = '0';
-    main.style.padding = '0';
-    main.style.background = '#030303';
-  }
-
   container.innerHTML = '';
 
   // Build sidebar navigation
@@ -75,7 +61,6 @@ export function renderDocs() {
   const backLink = el('a', { className: 'docs-nav-link', style: 'margin-bottom: var(--space-lg); color: var(--text-muted); font-size: 12px;', textContent: '← Back to Dashboard' });
   backLink.addEventListener('click', (e) => {
     e.preventDefault();
-    restoreLayout();
     navigate('landing');
   });
   navContent.appendChild(backLink);
@@ -164,18 +149,7 @@ export function renderDocs() {
   docsContent.querySelectorAll('.docs-section').forEach(sec => observer.observe(sec));
 }
 
-function restoreLayout() {
-  const sidebar = document.getElementById('sidebar');
-  const header = document.querySelector('header');
-  const main = document.querySelector('main');
-  if (sidebar) sidebar.style.display = 'block';
-  if (header) header.style.display = 'flex';
-  if (main) {
-    main.style.marginLeft = '';
-    main.style.padding = '';
-    main.style.background = '';
-  }
-}
+
 
 // ─────────────────────────────────────────────────────────
 //  HELPERS

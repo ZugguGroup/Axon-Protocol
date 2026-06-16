@@ -6,21 +6,6 @@ import { register, navigate } from '../router.js';
 
 export function renderLanding() {
   const container = document.getElementById('content');
-  
-  // Hide sidebar and header to present a full landing page layout
-  const sidebar = document.getElementById('sidebar');
-  const header = document.querySelector('header');
-  if (sidebar) sidebar.style.display = 'none';
-  if (header) header.style.display = 'none';
-
-  // Make main layout full width
-  const main = document.querySelector('main');
-  if (main) {
-    main.style.marginLeft = '0';
-    main.style.padding = '0';
-    main.style.background = '#030303';
-  }
-
   container.innerHTML = '';
 
   // 1. Navigation bar
@@ -353,9 +338,6 @@ function renderAuthIn(authSection) {
         api.setCredentials(null, null, res.token);
         setState('credentials', { apiKey: null, projectId: null, userToken: res.token });
         
-        // Restore layout styles
-        restoreLayout();
-
         // Navigate to projects to create/select one
         navigate('projects');
       } catch (err) {
@@ -366,8 +348,7 @@ function renderAuthIn(authSection) {
     });
 
     const authCard = el('div', { 
-      className: 'card animate-fade-in', 
-      style: 'width: 100%; max-width: 420px; padding: 40px 36px; border-radius: 20px; border: 1px solid var(--border-color); box-shadow: 0 24px 80px rgba(0, 0, 0, 0.8), 0 0 40px rgba(255, 255, 255, 0.02); background: #09090b;' 
+      className: 'card auth-card animate-fade-in'
     },
       el('div', { style: 'text-align: center; margin-bottom: var(--space-lg);' },
         el('div', { 
@@ -381,20 +362,6 @@ function renderAuthIn(authSection) {
     );
 
     authSection.appendChild(authCard);
-  }
-
-  function restoreLayout() {
-    const sidebar = document.getElementById('sidebar');
-    const header = document.querySelector('header');
-    const main = document.querySelector('main');
-    
-    if (sidebar) sidebar.style.display = 'block';
-    if (header) header.style.display = 'flex';
-    if (main) {
-      main.style.marginLeft = '';
-      main.style.padding = '';
-      main.style.background = '';
-    }
   }
 
   renderForm();

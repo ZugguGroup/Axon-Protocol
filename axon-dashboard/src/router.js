@@ -37,6 +37,16 @@ export function start(defaultPage = 'dashboard') {
       }
     }
 
+    // Set layout classes on body
+    document.body.classList.remove('layout-landing', 'layout-login', 'layout-docs');
+    if (hash === 'landing') {
+      document.body.classList.add('layout-landing');
+    } else if (hash === 'login') {
+      document.body.classList.add('layout-login');
+    } else if (hash === 'docs') {
+      document.body.classList.add('layout-docs');
+    }
+
     const renderFn = routes[hash];
     if (renderFn) {
       renderFn();
